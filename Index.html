@@ -3,230 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kabelberäkning</title>
+    <title>Kabelkalkylator</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        /* Grundinställningar för sidan */
         body {
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f4f4f9;
             margin: 0;
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-        }
-
-        /* Behållarna för kalkylatorerna */
-        .main-container {
             display: flex;
-            gap: 30px;
-            padding: 20px;
             justify-content: center;
             align-items: center;
+            height: 100vh;
         }
 
-        /* Individuell kalkylator-stil */
+        .container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
         .calculator {
-            background: #fff;
+            background: #ffffff;
             padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             width: 300px;
-            animation: fadeIn 0.8s ease-in-out;
-            transition: transform 0.3s ease;
         }
 
-        /* Kalkylator hover-effekt */
-        .calculator:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Animation för att fade in */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* Titel för kalkylatorer */
-        h2 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+        .calculator h3 {
+            margin-bottom: 10px;
+            text-align: center;
             color: #333;
         }
 
-        /* Input-fält och select-dropdowns */
-        select, input[type="number"] {
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
             border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
+            border-radius: 5px;
         }
 
-        /* Fokus på input-fält och dropdowns */
-        select:focus, input[type="number"]:focus {
-            border-color: #007BFF;
-            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        .form-group input:focus,
+        .form-group select:focus {
             outline: none;
+            border-color: #007bff;
         }
 
-        /* Knappstil */
-        .result-button {
+        button {
             width: 100%;
             padding: 10px;
-            font-size: 16px;
-            color: #fff;
             border: none;
-            border-radius: 8px;
-            background: #28a745;
+            background: #007bff;
+            color: #fff;
+            border-radius: 5px;
             cursor: pointer;
+            font-weight: bold;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
         }
 
-        /* Knapp hover-effekt */
-        .result-button:hover {
-            background: #218838;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(40, 167, 69, 0.5);
+        button:hover {
+            background: #0056b3;
         }
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <!-- Kalkylator 1: Resistans -->
+    <div class="container">
+        <!-- Resistans Kalkylator -->
         <div class="calculator">
-            <h2>Beräkna resistans</h2>
-            <label for="material-resistans">Material:</label>
-            <select id="material-resistans">
-                <option value="silver" data-resistans="0.0159">Silver</option>
-                <option value="koppar" data-resistans="0.01678">Koppar</option>
-                <option value="guld" data-resistans="0.0235">Guld</option>
-                <option value="aluminium" data-resistans="0.0265">Aluminium</option>
-                <option value="zink" data-resistans="0.0592">Zink</option>
-                <option value="nickel" data-resistans="0.0684">Nickel</option>
-                <option value="järn" data-resistans="0.097">Järn</option>
-                <option value="tenn" data-resistans="0.101">Tenn</option>
-                <option value="stål" data-resistans="0.16">Stål</option>
-                <option value="bly" data-resistans="0.206">Bly</option>
-            </select>
-            <input type="number" id="area-resistans" placeholder="Ange area (mm²)">
-            <input type="number" id="length-resistans" placeholder="Ange längd (m)">
-            <button class="result-button" onclick="calculateResistance()">Beräkna</button>
+            <h3>Beräkna Resistans</h3>
+            <div class="form-group">
+                <label for="material-resistance">Material</label>
+                <select id="material-resistance">
+                    <option value="0.0159">Silver</option>
+                    <option value="0.01678">Koppar</option>
+                    <option value="0.0235">Guld</option>
+                    <option value="0.0265">Aluminium</option>
+                    <option value="0.0592">Zink</option>
+                    <option value="0.0684">Nickel</option>
+                    <option value="0.097">Järn</option>
+                    <option value="0.101">Tenn</option>
+                    <option value="0.16">Stål</option>
+                    <option value="0.206">Bly</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="length-resistance">Längd (m)</label>
+                <input type="number" id="length-resistance" placeholder="Längd i meter">
+            </div>
+            <div class="form-group">
+                <label for="cables-resistance">Antal kablar</label>
+                <input type="number" id="cables-resistance" placeholder="Antal kablar">
+            </div>
+            <div class="form-group">
+                <label for="area-resistance">Tvärsnittsarea (mm²)</label>
+                <input type="number" id="area-resistance" placeholder="Area i mm²">
+            </div>
+            <button onclick="calculateResistance()">Beräkna Resistans</button>
         </div>
 
-        <!-- Kalkylator 2: Längd -->
+        <!-- Längd Kalkylator -->
         <div class="calculator">
-            <h2>Beräkna längd</h2>
-            <label for="material-length">Material:</label>
-            <select id="material-length">
-                <option value="silver" data-resistans="0.0159">Silver</option>
-                <option value="koppar" data-resistans="0.01678">Koppar</option>
-                <option value="guld" data-resistans="0.0235">Guld</option>
-                <option value="aluminium" data-resistans="0.0265">Aluminium</option>
-                <option value="zink" data-resistans="0.0592">Zink</option>
-                <option value="nickel" data-resistans="0.0684">Nickel</option>
-                <option value="järn" data-resistans="0.097">Järn</option>
-                <option value="tenn" data-resistans="0.101">Tenn</option>
-                <option value="stål" data-resistans="0.16">Stål</option>
-                <option value="bly" data-resistans="0.206">Bly</option>
-            </select>
-            <input type="number" id="area-length" placeholder="Ange area (mm²)">
-            <input type="number" id="resistance-length" placeholder="Ange resistans (Ω)">
-            <button class="result-button" onclick="calculateLength()">Beräkna</button>
+            <h3>Beräkna Längd</h3>
+            <div class="form-group">
+                <label for="material-length">Material</label>
+                <select id="material-length">
+                    <option value="0.0159">Silver</option>
+                    <option value="0.01678">Koppar</option>
+                    <option value="0.0235">Guld</option>
+                    <option value="0.0265">Aluminium</option>
+                    <option value="0.0592">Zink</option>
+                    <option value="0.0684">Nickel</option>
+                    <option value="0.097">Järn</option>
+                    <option value="0.101">Tenn</option>
+                    <option value="0.16">Stål</option>
+                    <option value="0.206">Bly</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="resistance-length">Resistans (Ω)</label>
+                <input type="number" id="resistance-length" placeholder="Resistans i Ω">
+            </div>
+            <div class="form-group">
+                <label for="cables-length">Antal kablar</label>
+                <input type="number" id="cables-length" placeholder="Antal kablar">
+            </div>
+            <div class="form-group">
+                <label for="area-length">Tvärsnittsarea (mm²)</label>
+                <input type="number" id="area-length" placeholder="Area i mm²">
+            </div>
+            <button onclick="calculateLength()">Beräkna Längd</button>
         </div>
 
-        <!-- Kalkylator 3: Area -->
+        <!-- Area Kalkylator -->
         <div class="calculator">
-            <h2>Beräkna area</h2>
-            <label for="material-area">Material:</label>
-            <select id="material-area">
-                <option value="silver" data-resistans="0.0159">Silver</option>
-                <option value="koppar" data-resistans="0.01678">Koppar</option>
-                <option value="guld" data-resistans="0.0235">Guld</option>
-                <option value="aluminium" data-resistans="0.0265">Aluminium</option>
-                <option value="zink" data-resistans="0.0592">Zink</option>
-                <option value="nickel" data-resistans="0.0684">Nickel</option>
-                <option value="järn" data-resistans="0.097">Järn</option>
-                <option value="tenn" data-resistans="0.101">Tenn</option>
-                <option value="stål" data-resistans="0.16">Stål</option>
-                <option value="bly" data-resistans="0.206">Bly</option>
-            </select>
-            <input type="number" id="length-area" placeholder="Ange längd (m)">
-            <input type="number" id="resistance-area" placeholder="Ange resistans (Ω)">
-            <button class="result-button" onclick="calculateArea()">Beräkna</button>
+            <h3>Beräkna Area</h3>
+            <div class="form-group">
+                <label for="material-area">Material</label>
+                <select id="material-area">
+                    <option value="0.0159">Silver</option>
+                    <option value="0.01678">Koppar</option>
+                    <option value="0.0235">Guld</option>
+                    <option value="0.0265">Aluminium</option>
+                    <option value="0.0592">Zink</option>
+                    <option value="0.0684">Nickel</option>
+                    <option value="0.097">Järn</option>
+                    <option value="0.101">Tenn</option>
+                    <option value="0.16">Stål</option>
+                    <option value="0.206">Bly</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="resistance-area">Resistans (Ω)</label>
+                <input type="number" id="resistance-area" placeholder="Resistans i Ω">
+            </div>
+            <div class="form-group">
+                <label for="length-area">Längd (m)</label>
+                <input type="number" id="length-area" placeholder="Längd i meter">
+            </div>
+            <div class="form-group">
+                <label for="cables-area">Antal kablar</label>
+                <input type="number" id="cables-area" placeholder="Antal kablar">
+            </div>
+            <button onclick="calculateArea()">Beräkna Area</button>
         </div>
     </div>
 
     <script>
         function calculateResistance() {
-            const material = document.getElementById('material-resistans');
-            const resistans = parseFloat(material.options[material.selectedIndex].getAttribute('data-resistans'));
-            const area = parseFloat(document.getElementById('area-resistans').value);
-            const length = parseFloat(document.getElementById('length-resistans').value);
+            const resistivity = parseFloat(document.getElementById('material-resistance').value);
+            const length = parseFloat(document.getElementById('length-resistance').value);
+            const cables = parseFloat(document.getElementById('cables-resistance').value);
+            const area = parseFloat(document.getElementById('area-resistance').value);
 
-            if (isNaN(area) || isNaN(length) || area <= 0 || length <= 0) {
-                Swal.fire('Ogiltigt värde', 'Ange giltiga värden för både area och längd.', 'error');
+            if (isNaN(resistivity) || isNaN(length) || isNaN(cables) || isNaN(area)) {
+                Swal.fire('Ogiltiga värden', 'Vänligen ange alla värden korrekt.', 'error');
                 return;
             }
-            const totalResistans = (resistans * length) / area;
 
-            Swal.fire({
-                title: 'Resultat',
-                text: `Resistansen är ${totalResistans.toFixed(4)} Ω.`,
-                icon: 'success'
-            });
+            const resistance = (resistivity * length * cables) / area;
+            Swal.fire('Resultat', `Resistansen är ${resistance.toFixed(4)} Ω.`, 'success');
         }
 
         function calculateLength() {
-            const material = document.getElementById('material-length');
-            const resistans = parseFloat(material.options[material.selectedIndex].getAttribute('data-resistans'));
-            const area = parseFloat(document.getElementById('area-length').value);
+            const resistivity = parseFloat(document.getElementById('material-length').value);
             const resistance = parseFloat(document.getElementById('resistance-length').value);
+            const cables = parseFloat(document.getElementById('cables-length').value);
+            const area = parseFloat(document.getElementById('area-length').value);
 
-            if (isNaN(area) || isNaN(resistance) || area <= 0 || resistance <= 0) {
-                Swal.fire('Ogiltigt värde', 'Ange giltiga värden för både area och resistans.', 'error');
+            if (isNaN(resistivity) || isNaN(resistance) || isNaN(cables) || isNaN(area)) {
+                Swal.fire('Ogiltiga värden', 'Vänligen ange alla värden korrekt.', 'error');
                 return;
             }
 
-            const length = (resistance * area) / resistans;
-
-            Swal.fire({
-                title: 'Resultat',
-                text: `Längden är ${length.toFixed(4)} meter.`,
-                icon: 'success'
-            });
+            const length = (resistance * area) / (resistivity * cables);
+            Swal.fire('Resultat', `Längden är ${length.toFixed(4)} meter.`, 'success');
         }
 
         function calculateArea() {
-            const material = document.getElementById('material-area');
-            const resistans = parseFloat(material.options[material.selectedIndex].getAttribute('data-resistans'));
-            const length = parseFloat(document.getElementById('length-area').value);
+            const resistivity = parseFloat(document.getElementById('material-area').value);
             const resistance = parseFloat(document.getElementById('resistance-area').value);
+            const length = parseFloat(document.getElementById('length-area').value);
+            const cables = parseFloat(document.getElementById('cables-area').value);
 
-            if (isNaN(length) || isNaN(resistance) || length <= 0 || resistance <= 0) {
-                Swal.fire('Ogiltigt värde', 'Ange giltiga värden för både längd och resistans.', 'error');
+            if (isNaN(resistivity) || isNaN(resistance) || isNaN(length) || isNaN(cables)) {
+                Swal.fire('Ogiltiga värden', 'Vänligen ange alla värden korrekt.', 'error');
                 return;
             }
 
-            const area = (resistans * length) / resistance;
-
-            Swal.fire({
-                title: 'Resultat',
-                text: `Arealen är ${area.toFixed(4)} mm².`,
-                icon: 'success'
-            });
+            const area = (resistance * cables) / (resistivity * length);
+            Swal.fire('Resultat', `Tvärsnittsarean är ${area.toFixed(4)} mm².`, 'success');
         }
     </script>
 </body>
