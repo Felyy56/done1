@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kabelresistansberäkning</title>
+    <title>Kabelberäkning</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
@@ -16,14 +16,19 @@
             background: linear-gradient(135deg, #e0eafc, #cfdef3);
         }
 
-        .container {
+        .main-container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .calculator {
             background: #fff;
-            padding: 30px;
+            padding: 20px;
             border-radius: 15px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
             text-align: center;
-            max-width: 450px;
-            width: 100%;
+            width: 300px;
             animation: fadeIn 0.8s ease-in-out;
         }
 
@@ -38,15 +43,15 @@
             }
         }
 
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 20px;
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
             color: #333;
         }
 
         select, input[type="number"] {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             margin: 10px 0;
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -65,7 +70,7 @@
             justify-content: center;
             align-items: center;
             gap: 15px;
-            margin: 20px 0;
+            margin: 15px 0;
         }
 
         .buttons button {
@@ -80,13 +85,7 @@
             box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
         }
 
-        .buttons button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .buttons button:hover:not(:disabled) {
+        .buttons button:hover {
             background: #0056b3;
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(0, 123, 255, 0.5);
@@ -104,90 +103,132 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(40, 167, 69, 0.5);
         }
-
-        .result-button:active {
-            transform: translateY(0);
-        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Kabelresistansberäkning</h1>
-        <label for="material">Välj material:</label>
-        <select id="material">
-            <option value="silver" data-resistans="0.0159">Silver</option>
-            <option value="koppar" data-resistans="0.01678">Koppar</option>
-            <option value="guld" data-resistans="0.0235">Guld</option>
-            <option value="aluminium" data-resistans="0.0265">Aluminium</option>
-            <option value="zink" data-resistans="0.0592">Zink</option>
-            <option value="nickel" data-resistans="0.0684">Nickel</option>
-            <option value="järn" data-resistans="0.097">Järn</option>
-            <option value="tenn" data-resistans="0.101">Tenn</option>
-            <option value="stål" data-resistans="0.16">Stål</option>
-            <option value="bly" data-resistans="0.206">Bly</option>
-        </select>
-
-        <div class="buttons">
-            <button id="decrease" disabled>-</button>
-            <span id="cableCount">1</span>
-            <button id="increase">+</button>
+    <div class="main-container">
+        <!-- Resistans -->
+        <div class="calculator">
+            <h2>Beräkna resistans</h2>
+            <label for="material-resistans">Material:</label>
+            <select id="material-resistans">
+                <option value="silver" data-resistans="0.0159">Silver</option>
+                <option value="koppar" data-resistans="0.01678">Koppar</option>
+                <option value="guld" data-resistans="0.0235">Guld</option>
+                <option value="aluminium" data-resistans="0.0265">Aluminium</option>
+                <option value="zink" data-resistans="0.0592">Zink</option>
+                <option value="nickel" data-resistans="0.0684">Nickel</option>
+                <option value="järn" data-resistans="0.097">Järn</option>
+                <option value="tenn" data-resistans="0.101">Tenn</option>
+                <option value="stål" data-resistans="0.16">Stål</option>
+                <option value="bly" data-resistans="0.206">Bly</option>
+            </select>
+            <input type="number" id="area-resistans" placeholder="Ange area (mm²)">
+            <input type="number" id="length-resistans" placeholder="Ange längd (m)">
+            <button class="result-button" onclick="calculateResistance()">Beräkna</button>
         </div>
 
-        <label for="area">Ledarens area (mm²):</label>
-        <input type="number" id="area" min="0" step="0.01" placeholder="Ange area" required>
+        <!-- Längd -->
+        <div class="calculator">
+            <h2>Beräkna längd</h2>
+            <label for="material-length">Material:</label>
+            <select id="material-length">
+                <option value="silver" data-resistans="0.0159">Silver</option>
+                <option value="koppar" data-resistans="0.01678">Koppar</option>
+                <option value="guld" data-resistans="0.0235">Guld</option>
+                <option value="aluminium" data-resistans="0.0265">Aluminium</option>
+                <option value="zink" data-resistans="0.0592">Zink</option>
+                <option value="nickel" data-resistans="0.0684">Nickel</option>
+                <option value="järn" data-resistans="0.097">Järn</option>
+                <option value="tenn" data-resistans="0.101">Tenn</option>
+                <option value="stål" data-resistans="0.16">Stål</option>
+                <option value="bly" data-resistans="0.206">Bly</option>
+            </select>
+            <input type="number" id="area-length" placeholder="Ange area (mm²)">
+            <input type="number" id="resistance-length" placeholder="Ange resistans (Ω)">
+            <button class="result-button" onclick="calculateLength()">Beräkna</button>
+        </div>
 
-        <button class="result-button" id="calculate">Beräkna resistans</button>
+        <!-- Area -->
+        <div class="calculator">
+            <h2>Beräkna area</h2>
+            <label for="material-area">Material:</label>
+            <select id="material-area">
+                <option value="silver" data-resistans="0.0159">Silver</option>
+                <option value="koppar" data-resistans="0.01678">Koppar</option>
+                <option value="guld" data-resistans="0.0235">Guld</option>
+                <option value="aluminium" data-resistans="0.0265">Aluminium</option>
+                <option value="zink" data-resistans="0.0592">Zink</option>
+                <option value="nickel" data-resistans="0.0684">Nickel</option>
+                <option value="järn" data-resistans="0.097">Järn</option>
+                <option value="tenn" data-resistans="0.101">Tenn</option>
+                <option value="stål" data-resistans="0.16">Stål</option>
+                <option value="bly" data-resistans="0.206">Bly</option>
+            </select>
+            <input type="number" id="length-area" placeholder="Ange längd (m)">
+            <input type="number" id="resistance-area" placeholder="Ange resistans (Ω)">
+            <button class="result-button" onclick="calculateArea()">Beräkna</button>
+        </div>
     </div>
 
     <script>
-        const decreaseBtn = document.getElementById('decrease');
-        const increaseBtn = document.getElementById('increase');
-        const cableCountDisplay = document.getElementById('cableCount');
-        const calculateBtn = document.getElementById('calculate');
-        const materialDropdown = document.getElementById('material');
-        const areaInput = document.getElementById('area');
+        // Beräkna resistans
+        function calculateResistance() {
+            const material = document.getElementById('material-resistans');
+            const resistans = parseFloat(material.options[material.selectedIndex].getAttribute('data-resistans'));
+            const area = parseFloat(document.getElementById('area-resistans').value);
+            const length = parseFloat(document.getElementById('length-resistans').value);
 
-        let cableCount = 1;
+            if (isNaN(area) || isNaN(length) || area <= 0 || length <= 0) {
+                Swal.fire('Ogiltigt värde', 'Ange giltiga värden
+                const totalResistans = (resistans * length) / area;  
 
-        // Event listeners for cable count buttons
-        decreaseBtn.addEventListener('click', () => {
-            if (cableCount > 1) {
-                cableCount--;
-                cableCountDisplay.textContent = cableCount;
-                if (cableCount === 1) decreaseBtn.setAttribute('disabled', 'true');
-            }
+        Swal.fire({  
+            title: 'Resultat',  
+            text: `Resistansen är ${totalResistans.toFixed(4)} Ω.`,  
+            icon: 'success'  
+        });  
+    }  
+
+    // Beräkna längd
+    function calculateLength() {
+        const material = document.getElementById('material-length');
+        const resistans = parseFloat(material.options[material.selectedIndex].getAttribute('data-resistans'));
+        const area = parseFloat(document.getElementById('area-length').value);
+        const resistance = parseFloat(document.getElementById('resistance-length').value);
+
+        if (isNaN(area) || isNaN(resistance) || area <= 0 || resistance <= 0) {
+            Swal.fire('Ogiltigt värde', 'Ange giltiga värden för både area och resistans.', 'error');
+            return;
+        }
+
+        const length = (resistance * area) / resistans;
+
+        Swal.fire({
+            title: 'Resultat',
+            text: `Längden är ${length.toFixed(4)} meter.`,
+            icon: 'success'
         });
+    }
 
-        increaseBtn.addEventListener('click', () => {
-            cableCount++;
-            cableCountDisplay.textContent = cableCount;
-            decreaseBtn.removeAttribute('disabled');
+    // Beräkna area
+    function calculateArea() {
+        const material = document.getElementById('material-area');
+        const resistans = parseFloat(material.options[material.selectedIndex].getAttribute('data-resistans'));
+        const length = parseFloat(document.getElementById('length-area').value);
+        const resistance = parseFloat(document.getElementById('resistance-area').value);
+
+        if (isNaN(length) || isNaN(resistance) || length <= 0 || resistance <= 0) {
+            Swal.fire('Ogiltigt värde', 'Ange giltiga värden för både längd och resistans.', 'error');
+            return;
+        }
+
+        const area = (resistans * length) / resistance;
+
+        Swal.fire({
+            title: 'Resultat',
+            text: `Arealen är ${area.toFixed(4)} mm².`,
+            icon: 'success'
         });
-
-        // Calculate resistance
-        calculateBtn.addEventListener('click', () => {
-            const selectedMaterial = materialDropdown.options[materialDropdown.selectedIndex];
-            const resistans = parseFloat(selectedMaterial.getAttribute('data-resistans'));
-            const area = parseFloat(areaInput.value);
-
-            if (isNaN(area) || area <= 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Ogiltigt värde',
-                    text: 'Ange en giltig area!'
-                });
-                return;
-            }
-
-            const length = 1; // Förutsatt 1 meter, du kan ändra här
-            const totalResistans = (resistans * (length * cableCount)) / area;
-
-            Swal.fire({
-                icon: 'success',
-                title: 'Beräknat resultat',
-                text: `Den totala resistansen är ${totalResistans.toFixed(4)} Ω.`
-            });
-        });
-    </script>
-</body>
-</html>
+    }
+</script>
