@@ -6,6 +6,7 @@
     <title>Kabelberäkning</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        /* Grundinställningar för sidan */
         body {
             font-family: 'Arial', sans-serif;
             display: flex;
@@ -13,25 +14,37 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #e0eafc, #cfdef3);
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
         }
 
+        /* Behållarna för kalkylatorerna */
         .main-container {
             display: flex;
-            gap: 20px;
+            gap: 30px;
             padding: 20px;
+            justify-content: center;
+            align-items: center;
         }
 
+        /* Individuell kalkylator-stil */
         .calculator {
             background: #fff;
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             text-align: center;
             width: 300px;
             animation: fadeIn 0.8s ease-in-out;
+            transition: transform 0.3s ease;
         }
 
+        /* Kalkylator hover-effekt */
+        .calculator:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animation för att fade in */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -43,12 +56,14 @@
             }
         }
 
+        /* Titel för kalkylatorer */
         h2 {
             font-size: 1.5rem;
             margin-bottom: 15px;
             color: #333;
         }
 
+        /* Input-fält och select-dropdowns */
         select, input[type="number"] {
             width: 100%;
             padding: 10px;
@@ -59,45 +74,28 @@
             transition: all 0.3s ease;
         }
 
+        /* Fokus på input-fält och dropdowns */
         select:focus, input[type="number"]:focus {
             border-color: #007BFF;
             box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
             outline: none;
         }
 
-        .buttons {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin: 15px 0;
-        }
-
-        .buttons button {
-            padding: 10px 15px;
+        /* Knappstil */
+        .result-button {
+            width: 100%;
+            padding: 10px;
             font-size: 16px;
             color: #fff;
             border: none;
             border-radius: 8px;
-            background: #007BFF;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
-        }
-
-        .buttons button:hover {
-            background: #0056b3;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 123, 255, 0.5);
-        }
-
-        .result-button {
-            width: 100%;
             background: #28a745;
+            cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
         }
 
+        /* Knapp hover-effekt */
         .result-button:hover {
             background: #218838;
             transform: translateY(-2px);
@@ -107,7 +105,7 @@
 </head>
 <body>
     <div class="main-container">
-        <!-- Resistans -->
+        <!-- Kalkylator 1: Resistans -->
         <div class="calculator">
             <h2>Beräkna resistans</h2>
             <label for="material-resistans">Material:</label>
@@ -128,7 +126,7 @@
             <button class="result-button" onclick="calculateResistance()">Beräkna</button>
         </div>
 
-        <!-- Längd -->
+        <!-- Kalkylator 2: Längd -->
         <div class="calculator">
             <h2>Beräkna längd</h2>
             <label for="material-length">Material:</label>
@@ -149,7 +147,7 @@
             <button class="result-button" onclick="calculateLength()">Beräkna</button>
         </div>
 
-        <!-- Area -->
+        <!-- Kalkylator 3: Area -->
         <div class="calculator">
             <h2>Beräkna area</h2>
             <label for="material-area">Material:</label>
@@ -172,7 +170,6 @@
     </div>
 
     <script>
-        // Beräkna resistans
         function calculateResistance() {
             const material = document.getElementById('material-resistans');
             const resistans = parseFloat(material.options[material.selectedIndex].getAttribute('data-resistans'));
@@ -180,55 +177,57 @@
             const length = parseFloat(document.getElementById('length-resistans').value);
 
             if (isNaN(area) || isNaN(length) || area <= 0 || length <= 0) {
-                Swal.fire('Ogiltigt värde', 'Ange giltiga värden
-                const totalResistans = (resistans * length) / area;  
+                Swal.fire('Ogiltigt värde', 'Ange giltiga värden för både area och längd.', 'error');
+                return;
+            }
+            const totalResistans = (resistans * length) / area;
 
-        Swal.fire({  
-            title: 'Resultat',  
-            text: `Resistansen är ${totalResistans.toFixed(4)} Ω.`,  
-            icon: 'success'  
-        });  
-    }  
-
-    // Beräkna längd
-    function calculateLength() {
-        const material = document.getElementById('material-length');
-        const resistans = parseFloat(material.options[material.selectedIndex].getAttribute('data-resistans'));
-        const area = parseFloat(document.getElementById('area-length').value);
-        const resistance = parseFloat(document.getElementById('resistance-length').value);
-
-        if (isNaN(area) || isNaN(resistance) || area <= 0 || resistance <= 0) {
-            Swal.fire('Ogiltigt värde', 'Ange giltiga värden för både area och resistans.', 'error');
-            return;
+            Swal.fire({
+                title: 'Resultat',
+                text: `Resistansen är ${totalResistans.toFixed(4)} Ω.`,
+                icon: 'success'
+            });
         }
 
-        const length = (resistance * area) / resistans;
+        function calculateLength() {
+            const material = document.getElementById('material-length');
+            const resistans = parseFloat(material.options[material.selectedIndex].getAttribute('data-resistans'));
+            const area = parseFloat(document.getElementById('area-length').value);
+            const resistance = parseFloat(document.getElementById('resistance-length').value);
 
-        Swal.fire({
-            title: 'Resultat',
-            text: `Längden är ${length.toFixed(4)} meter.`,
-            icon: 'success'
-        });
-    }
+            if (isNaN(area) || isNaN(resistance) || area <= 0 || resistance <= 0) {
+                Swal.fire('Ogiltigt värde', 'Ange giltiga värden för både area och resistans.', 'error');
+                return;
+            }
 
-    // Beräkna area
-    function calculateArea() {
-        const material = document.getElementById('material-area');
-        const resistans = parseFloat(material.options[material.selectedIndex].getAttribute('data-resistans'));
-        const length = parseFloat(document.getElementById('length-area').value);
-        const resistance = parseFloat(document.getElementById('resistance-area').value);
+            const length = (resistance * area) / resistans;
 
-        if (isNaN(length) || isNaN(resistance) || length <= 0 || resistance <= 0) {
-            Swal.fire('Ogiltigt värde', 'Ange giltiga värden för både längd och resistans.', 'error');
-            return;
+            Swal.fire({
+                title: 'Resultat',
+                text: `Längden är ${length.toFixed(4)} meter.`,
+                icon: 'success'
+            });
         }
 
-        const area = (resistans * length) / resistance;
+        function calculateArea() {
+            const material = document.getElementById('material-area');
+            const resistans = parseFloat(material.options[material.selectedIndex].getAttribute('data-resistans'));
+            const length = parseFloat(document.getElementById('length-area').value);
+            const resistance = parseFloat(document.getElementById('resistance-area').value);
 
-        Swal.fire({
-            title: 'Resultat',
-            text: `Arealen är ${area.toFixed(4)} mm².`,
-            icon: 'success'
-        });
-    }
-</script>
+            if (isNaN(length) || isNaN(resistance) || length <= 0 || resistance <= 0) {
+                Swal.fire('Ogiltigt värde', 'Ange giltiga värden för både längd och resistans.', 'error');
+                return;
+            }
+
+            const area = (resistans * length) / resistance;
+
+            Swal.fire({
+                title: 'Resultat',
+                text: `Arealen är ${area.toFixed(4)} mm².`,
+                icon: 'success'
+            });
+        }
+    </script>
+</body>
+</html>
